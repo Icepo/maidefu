@@ -1,0 +1,108 @@
+{% comment %}清单{% endcomment %}
+<script>
+    //区域打印
+    $(function () {
+        $("#btn-print").on("click", function () {
+            $.print($("#printArea"));
+        });
+    });
+    function checkAll() {
+        $("input[name='checked_store']").each(function () {
+            $(this).prop("checked", true);
+        })
+    }
+    function uncheckAll() {
+        $("input[name='checked_store']:checked").each(function () {
+            $(this).attr("checked", false);
+        })
+    }
+    function queryItems() {
+        var target_date = $("#date-picker").val();
+        if (!target_date || target_date == "") {
+            Modal.alert({
+                msg: "请选择时间"
+            })
+        }
+        var query_stores = "";
+        $("input[name='checked_store']:checked").each(function () {
+            query_stores += $(this).val() + ","
+        });
+        query_stores = query_stores.substr(0, query_stores.length - 1);
+        $.ajax({
+            type: "get",
+            url: "queryItems?target_date=" + target_date + "&query_stores=" + query_stores,
+            success: function (data) {
+                $("#detail-table tr").not("#detail-table tr:first-child").remove();
+                $("#detail-table").append(data.res_data);
+            }
+        });
+
+    }
+</script>
+<style>
+    #detail-table {
+        font-size: 8px;
+        font-family: '微软雅黑';
+    }
+
+    #detail-table td {
+        padding: 2px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        日期:<input id="date-picker" type="text">
+        <script>$('#date-picker').datepicker({
+            "autoclose": true,
+            "format": "yyyy-mm-dd",
+            "language": "zh-CN"
+        });</script>
+    </div>
+    {% for store in stores %}
+        <div class="col-md-3">
+            <input type="checkbox" name="checked_store" value="{{ store.store_id }}">{{ store.store_name }}
+        </div>
+    {% endfor %}
+</div>
+<hr/>
+<br>
+<div class="row text-center">
+    <div class="col-md-3">
+        <button id="btn-query" class="btn" onclick="queryItems()">查询</button>
+    </div>
+    <div class="col-md-3">
+        <button id="btn-print" class="btn">打印</button>
+    </div>
+    <div class="col-md-3">
+        <button class="btn btn-success" onclick="checkAll()">全选</button>
+    </div>
+    <div class="col-md-3">
+        <button class="btn btn-warn" onclick="uncheckAll()">反选</button>
+    </div>
+</div>
+<div class="row" id="printArea">
+    <div class="col-md-12 text-center"><h2>门店日报清单</h2></div>
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <td id="store_name_td"></td>
+                <td>管理员:周龙</td>
+                <td>日期:2016-04-05</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-bordered text-center" id="detail-table">
+            <tr>
+                <th class="text-center">序号</th>
+                <th class="text-center">商品名称</th>
+                <th class="text-center">单位</th>
+                <th class="text-center">订货数量</th>
+                <th class="text-center">实数</th>
+                <th class="text-center">单价</th>
+                <th class="text-center">金额</th>
+                <th class="text-center">备注</th>
+            </tr>
+        </table>
+    </div>
+</div>

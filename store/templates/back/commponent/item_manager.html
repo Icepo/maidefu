@@ -1,0 +1,111 @@
+{% comment %}货品管理{% endcomment %}
+<script>
+    function add_item() {
+        console.log($("#item-form").serializeArray());
+        var method = "create";
+        if ($("input[name='item_id']").val() != "") {
+            method = "update";
+        }
+        $.ajax({
+            type: "post",
+            data: $("#item-form").serializeArray(),
+            url: "newItem",
+            async: false,
+            success: function (data) {
+                Modal.alert({
+                    msg: data.res_msg
+                });
+                window.location.reload();
+            },
+            error: function (data) {
+                Modal.alert({
+                    msg: "出错啦！！！"
+                })
+            }
+        })
+    }
+    function update_item(obj) {
+        $("input[name='item_id']").val(obj.parent().parent().children().eq(0).html());
+        $("input[name='item_name']").val(obj.parent().parent().children().eq(1).html());
+        $("input[name='item_unit']").val(obj.parent().parent().children().eq(2).html());
+        $("input[name='item_catalog']").each(function () {
+            if ($(this).val() == obj.parent().parent().children().eq(3).val()) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        })
+    }
+    function del_item(id) {
+        Modal.confirm({
+                    msg: "是否要删除？"
+                })
+                .on(function (flag) {
+                    if (flag) {
+                        $.ajax({
+                            type: "get",
+                            url: "delItem?item_id=" + id,
+                            success: function (data) {
+                                Modal.alert({
+                                    msg: data.res_msg
+                                })
+                            }
+                        })
+                    }
+                });
+    }
+</script>
+<style>
+    #catalog_col {
+        margin-top: 2rem;
+    }
+</style>
+<div class="row" id="item_manager">
+    <form id="item-form">
+        <div class="row text-center">
+            <input type="hidden" name="item_id">
+            <div class="col-md-6">名称：<input type="text" name="item_name" class="text-center" required></div>
+            <div class="col-md-6">单位：<input type="text" name="item_unit" class="text-center" required></div>
+            <div class="col-md-12" id="catalog_col">
+                种类：
+                {% for catalog in catalogs %}
+                    <input type="radio" name="item_catalog" value="{{ catalog.id }}">{{ catalog.name }}&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                {% endfor %}
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <button class="btn btn-success" onclick="add_item()">增加/更新商品</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered text-center">
+            <tr>
+                <td>编号</td>
+                <td>名称</td>
+                <td>单位</td>
+                <td>类别</td>
+                <td>更新时间</td>
+                <td>操作</td>
+            </tr>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.unit }}</td>
+                    <input type="hidden" value="{{ item.catalog.id }}">
+                    <td>{{ item.catalog.name }}</td>
+                    <td>{{ item.sts_date|date:'Y-m-d h:m:s' }}</td>
+                    <td><a href="javascript:void(0)"
+                           onclick="update_item($(this))">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)"
+                                                                                           onclick="del_item({{ item.id }})">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>

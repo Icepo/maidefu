@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0 user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>麦德福移动报货助手</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/style.css?v=0.2123122" %}">
+    <link rel="stylesheet" href="{% static "css/loading.css" %}">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="{% static "js/loading.js" %}"></script>
+    <script src="{% static "js/modal.js?v=0.8322131" %}"></script>
+    <script src="{% static "js/webcome.js?v=0.8221231232123331" %}"></script>
+</head>
+<body>
+{% include "store/component.html" %}
+<div id="webcome_page" class="container text-center">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>麦德福移动报货助手</h3>
+        </div>
+    </div>
+    <form id="login-form" method="post" action="store/login">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xs-3">名称:</div>
+            <div class="col-xs-9">
+                <input type="text" id="name" name="name" placeholder="输入登录名称" class="text-center">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">密码:</div>
+            <div class="col-xs-9">
+                <input type="text" id="pwd" name="pwd" placeholder="输入密码" class="text-center">
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-success" id="login">登录</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">用户名和密码请联系管理员</div>
+        <div class="col-xs-12">电话:0311-123456789</div>
+        <div class="col-xs-12">温馨提示：该助手仅供麦德福内部使用，用户信息均使用员工真实信息。便于管理，密码未做机密处理，请不要用与个人银行卡等账户相同的密码登录！</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 text-center">Copyright xx 2016 version 1.0</div>
+    </div>
+</div>
+</body>
+</html>

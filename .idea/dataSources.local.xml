@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Sqlite (Xerial) - maidefu.sqlite3" uuid="e95b75bd-17f1-45c6-97f9-7fb6ecefb9e2">
+      <secret-storage>master_key</secret-storage>
+      <auth-required>false</auth-required>
+    </data-source>
+  </component>
+</project>

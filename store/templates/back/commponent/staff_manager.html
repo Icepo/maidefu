@@ -1,0 +1,110 @@
+{% comment %}货品管理{% endcomment %}
+<script>
+    function add_staff() {
+        console.log($("#staff-form").serializeArray());
+        $.ajax({
+            type: "post",
+            data: $("#staff-form").serializeArray(),
+            url: "newStaff",
+            async: false,
+            success: function (data) {
+                Modal.alert({
+                    msg: data.res_msg
+                });
+                window.location.reload();
+            },
+            error: function (data) {
+                Modal.alert({
+                    msg: "出错啦！！！"
+                })
+            }
+        })
+    }
+    function update_staff(obj) {
+        var staff_id = obj.parent().parent().children().eq(0).html();
+        $("input[name='staff_id']").val(staff_id);
+        $("input[name='real_name']").val(obj.parent().parent().children().eq(1).html());
+        $("input[name='mobile_num']").val(obj.parent().parent().children().eq(2).html());
+        $.ajax({
+            tyle: "get",
+            async: false,
+            url: 'queryStaffStore?staff_id=' + staff_id + "&rd=" + Math.random(),
+            success: function (data) {
+                $("input[name='checked_store']").each(function () {
+                    if ($(this).val() == data.res_data) {
+                        $(this).attr("checked", true);
+                        return;
+                    } else {
+                        $(this).attr("checked", false);
+                    }
+                })
+            }
+        });
+    }
+    function del_staff(id) {
+        Modal.confirm({
+            msg: "是否要删除？"
+        }).on(function (flag) {
+            if (flag) {
+                $.ajax({
+                    type: "get",
+                    url: "delStaff?staff_id=" + id,
+                    success: function (data) {
+                        Modal.alert({
+                            msg: data.res_msg
+                        })
+                    }
+                })
+            }
+        });
+    }
+</script>
+<style>
+    #catalog_col {
+        margin-top: 2rem;
+    }
+</style>
+<div class="row" id="staff_manager">
+    <form id="staff-form">
+        <div class="row text-center">
+            <input type="hidden" name="staff_id">
+            <div class="col-md-6">名称：<input type="text" name="real_name" class="text-center" required></div>
+            <div class="col-md-6">单位：<input type="text" name="mobile_num" class="text-center" required></div>
+            {% for store in stores %}
+                <div class="col-md-3">
+                    <input type="radio" name="checked_store" value="{{ store.store_id }}">{{ store.store_name }}
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <button class="btn btn-success" onclick="add_staff()">增加/更新员工</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered text-center">
+            <tr>
+                <td>编号</td>
+                <td>名称</td>
+                <td>电话</td>
+                <td>更新时间</td>
+                <td>操作</td>
+            </tr>
+            {% for staff in staffs %}
+                <tr>
+                    <td>{{ staff.id }}</td>
+                    <td>{{ staff.real_name }}</td>
+                    <td>{{ staff.mobile_num }}</td>
+                    <td>{{ staff.sts_date|date:'Y-m-d h:m:s' }}</td>
+                    <td><a href="javascript:void(0)"
+                           onclick="update_staff($(this))">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)"
+                                                                                            onclick="del_staff({{ staff.id }})">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>

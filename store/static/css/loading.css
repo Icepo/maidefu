@@ -1,0 +1,39 @@
+@keyframes loading {
+    0% {
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-50%) rotate(360deg);
+    }
+}
+
+#loading-mask {
+    z-index: 9998;
+    background-color: #c0c0c0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+    display: none;
+}
+
+#loading-content {
+    z-index: 9999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 8rem;
+    height: 8rem;
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 50%;
+    border: 1rem dotted #ff9900;
+    animation: loading 3s linear 0s infinite;
+    -moz-animation: loading 3s linear 0s infinite;
+    -webkit-animation: loading 3s linear 0s infinite;
+    -o-animation: loading 3s linear 0s infinite;
+    display: none;
+}

@@ -1,0 +1,218 @@
+/*总体配置*/
+html {
+    font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/
+    font-family: "Microsoft JhengHei", serif;
+}
+th {
+    text-align: center;
+}
+caption {
+    font-weight: bolder;
+    background-color: #FF9900;
+    color: #fff;
+    border-radius: 1rem 1rem 0 0;
+}
+/*登录页面布局*/
+#webcome_page{
+    color: #ff9900;
+}
+#webcome_page .row{
+    margin-top: 3rem;
+}
+#webcome_page .btn{
+    width: 80%;
+}
+/*修正confirm的布局*/
+.modal-footer {
+    text-align: center;
+}
+.modal-dialog {
+    margin-top: 6rem;
+}
+#add-item-btn {
+    background-color: #c0c0c0;
+    border: 0;
+}
+
+.btn-disabled {
+    background-color: #c0c0c0;
+    border: 0;
+}
+
+#main-info {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    text-align: left;
+    font-size: 1rem;
+}
+
+#copyright {
+    position: absolute;
+    bottom: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #c0c0c0;
+}
+
+.btn-customer {
+    background-color: #FF9900;
+    color: #fff;
+    text-shadow: .5rem .5rem .5rem #fff;
+    height: 3rem;
+    border-radius: 1rem;
+}
+
+.page-title {
+    background-color: #FF9900;
+    border-radius: .5rem;
+    color: #fff;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.page-panel {
+    border-radius: 1rem;
+}
+
+.page-content {
+    margin-bottom: 4rem;
+    overflow: scroll;
+}
+
+.nav-foot {
+    background-color: RGB(174, 221, 129);
+    border-radius: 50%;
+    color: #ff9900;
+}
+
+#page_0 {
+    display: none;
+    color: #ff9900;
+}
+
+#page_1 {
+    display: none;
+}
+#page_2{
+    display: none;
+    color: #ff9900;
+}
+
+#name-input {
+    margin-top: 3rem;
+}
+
+#input-remove {
+    color: #ff9900;
+    pointer-events: auto;
+}
+
+.item-list-title {
+    background-color: #ff9900;
+    color: #fff;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.list-content {
+    border-bottom: 1px dotted #ff9900;
+    color: #ff9900;
+}
+
+.list-content > div {
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    height: 6rem;
+}
+
+.list-content-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.item-list-input {
+    padding: 0;
+    text-align: center;
+}
+
+#list-group {
+    height: 20rem;
+    border: 1px solid #ff9900;
+    overflow: scroll;
+    display: none;
+    box-shadow: 5px 5px 2px #888888;
+}
+
+.keywords {
+    color: #ff9900;
+}
+
+#page_3 {
+    display: none;
+}
+
+#bottom-nav {
+    padding: 0;
+    background-color: aliceblue;
+    border-radius: 2rem 2rem 0 0;
+}
+
+#bottom-nav > .col-xs-3 {
+    height: 4rem;
+    border-radius: 50% 50% 0 0;
+}
+
+.selectBottom {
+    background-color: #ff8800;
+    color: #fff;
+}
+
+#addStore {
+    position: fixed;
+    top: 50px;
+}
+
+#vegetable-title {
+    color: #000;
+    font-weight: bolder;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.catalogs-row > .col-xs-3 {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    margin: 1rem;
+    border-radius: 2rem;
+    height: 5rem;
+}
+
+#vegetable-table {
+    margin-top: 10px;
+}
+
+#addCatalog {
+    margin-top: 40px;
+}
+
+#success-info {
+    display: none;
+}
+
+#danger-info {
+    display: none;
+}
+#list-group-store{
+    padding-left: 0;
+}
+#item_manager{
+    padding: 1rem;
+}
+#item_manager .row{
+    margin-top: 2rem;
+}

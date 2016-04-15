@@ -1,0 +1,8 @@
+{% comment %}设定门店{% endcomment %}
+<div class="container page-content" id="page_3">
+    <ul id="list-group-store">
+        {% for item in items %}
+            <li class="list-group-item">{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,46 @@
+{% comment %}报货页面{% endcomment %}
+<div class="container page-content text-center" id="page_1">
+    <div class="row" id="name-input">
+        <div class="col-xs-9">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" id="item-name" value="">
+                    <span id="input-remove" class="glyphicon glyphicon-remove form-control-feedback"
+                          aria-hidden="true"></span>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <button type="button" class="btn btn-success btn-disabled" id="add-item-btn" disabled="true">添加</button>
+        </div>
+    </div>
+    <div class="list-group" id="list-group">
+    </div>
+    <form id="item-form">
+        <ul class="list-group">
+            <li class="list-group-item item-list-title">水果类</li>
+            <div id="item-list-1">
+            </div>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item item-list-title">蔬菜类</li>
+            <div id="item-list-2">
+            </div>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item item-list-title">副食类</li>
+            <div id="item-list-3">
+            </div>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item item-list-title">双汇冷鲜肉</li>
+            <div id="item-list-4">
+            </div>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item item-list-title">熟食</li>
+            <div id="item-list-5">
+            </div>
+        </ul>
+        <button type="button" class="btn btn-success" onclick="confirmSubmit()">确认报货</button>
+    </form>
+    <br><br><br>
+</div>

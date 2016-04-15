@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0 user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>数据录入</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#bottom-nav').children().each(function (index) {
+                if (index == 0) {
+                    selectBottom(index);
+                    $("#page_" + index).css("display", "inherit");
+                }
+                $(this).bind("touchstart", function () {
+                    selectBottom(index);
+                    console.log("tap" + index);
+                })
+            });
+        });
+        function selectBottom(currentIndex) {
+            $("#bottom-nav").children().each(function (index) {
+                if (index == currentIndex) {
+                    $(this).addClass("selectBottom");
+                    $("#page_" + index).css("display", "inherit");
+                } else {
+                    $(this).removeClass("selectBottom");
+                    $("#page_" + index).css("display", "none");
+                }
+            });
+        }
+        function showItems() {
+            $("#items").modal("show");
+        }
+        function addCatalog() {
+            var currentItemType = "vegetable";
+            if ($("#page_2").css("display") == "none") {
+                currentItemType = "fruit";
+            }
+            $.ajax({
+                type: "get",
+                data: $("#itemCatalogForm").serialize() + "&currentItemType=" + currentItemType + "&temp=" + Math.random(),
+                url: "/store/addCatalog",
+                cache: false,
+                success: function (data) {
+                    if (data.res_code == "1") {
+                        $("#success-info").html(data.res_msg);
+                        $("#success-info").show(500).delay(200).hide(500);
+                        $("#addCatalog").modal("hide");
+                        $("#itemCatalogForm")[0].reset();
+                    } else {
+                        $("#danger-info").fadeIn(500).delay(200).hide(500);
+                    }
+                },
+                error: function () {
+                    $("#danger-info").fadeIn(500).delay(200).hide(500);
+                }
+            });
+
+        }
+    </script>
+</head>
+<style>
+    html {
+        font-size: 10px; /*10 ÷ 16 × 100% = 62.5%*/
+        font-family: "Microsoft JhengHei", serif;
+    }
+    #page_0 {
+        display: none;
+    }
+
+    #page_1 {
+        display: none;
+    }
+
+    #page_2 {
+        display: none;
+    }
+
+    #page_3 {
+        display: none;
+    }
+
+    #bottom-nav {
+        padding: 0;
+    }
+
+    #bottom-nav > .col-xs-3 {
+        height: 4rem;
+        border-radius: 50%;
+    }
+
+    .selectBottom {
+        background-color: #ff8800;
+    }
+
+    #addStore {
+        position: fixed;
+        top: 50px;
+    }
+
+    #vegetable-title {
+        color: #000;
+        font-weight: bolder;
+    }
+
+    #vegetable-table {
+        margin-top: 10px;
+    }
+
+    #addCatalog {
+        margin-top: 40px;
+    }
+
+    #success-info {
+        display: none;
+    }
+
+    #danger-info {
+        display: none;
+    }
+
+    #bottom-nav {
+        font-size: 12px;
+        font-family: "Adobe Arabic";
+    }
+</style>
+<body>
+
+<div class="container" id="page_0">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h3>总览</h3>
+        </div>
+    </div>
+</div>
+<div class="container" id="page_1">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h3>门店清单</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped">
+                <tr>
+                    <th>名称</th>
+                    <th>热度</th>
+                    <th>负责人</th>
+                </tr>
+                <tr>
+                    <td>123</td>
+                    <td>234</td>
+                    <td>24123</td>
+                </tr>
+                <tr>
+                    <td>123</td>
+                    <td>234</td>
+                    <td>24123</td>
+                </tr>
+                <tr>
+                    <td>123</td>
+                    <td>234</td>
+                    <td>24123</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-xs-3 col-xs-offset-6">
+            <button type="button" class="btn btn-info" data-target="#addStore" data-toggle="modal">增加门店</button>
+        </div>
+
+    </div>
+</div>
+{% comment %}蔬菜页面{% endcomment %}
+<div class="container" id="page_2">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h3>蔬菜</h3>
+            <h4>配货清单</h4>
+        </div>
+    </div>
+    <div class="row" id="vegetable-title">
+        <div class="col-xs-5 text-center">名称</div>
+        <div class="col-xs-4 text-center">数量</div>
+        <div class="col-xs-3 text-center">单位</div>
+    </div>
+    <div class="row" id="vegetable-table">
+        <div class="col-xs-5 text-center">
+            <a class="btn btn-default" href="#" onclick="showItems()">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true">增加</span>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" class="form-control text-center">
+        </div>
+        <div class="col-xs-3 text-center">
+            <a class="btn btn-default" href="#">框</a>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-6">
+            <a data-toggle="modal" class="btn btn-default" href="#addCatalog">新增蔬菜类型</a>
+        </div>
+    </div>
+</div>
+{% comment %}水果页面{% endcomment %}
+<div class="container" id="page_3">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h3>水果</h3>
+        </div>
+    </div>
+</div>
+
+{% comment %}增加商品类型弹出框{% endcomment %}
+<div id="addCatalog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">增加商品类型</h4>
+            </div>
+            <div class="modal-body">
+                <form id="itemCatalogForm">
+                    <div class="form-group">
+                        <label for="itemCatalog">商品类型</label>
+                        <input type="text" class="form-control" id="itemCatalog" name="itemCatalog">
+                    </div>
+                    <div class="form-group">
+                        <label for="itemUnit">单位</label>
+                        <input type="text" class="form-control" id="itemUnit" name="itemUnit">
+                    </div>
+                    <button type="button" class="btn btn-default" onclick="addCatalog()">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %}增加商品弹出框{% endcomment %}
+<div id="items" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %}增加门店弹出框{% endcomment %}
+<div id="addStore" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">增加门店</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="storeName">店名</label>
+                        <input type="text" class="form-control" id="storeName">
+                    </div>
+                    <div class="form-group">
+                        <label for="storeAddr">地址</label>
+                        <input type="text" class="form-control" id="storeAddr">
+                    </div>
+                    <div class="form-group">
+                        <label for="storeManager">负责人</label>
+                        <input type="text" class="form-control" id="storeManager">
+                    </div>
+                    <div class="form-group">
+                        <label for="storeMobile">手机</label>
+                        <input type="text" class="form-control" id="storeMobile">
+                    </div>
+                    <div class="form-group">
+                        <label for="storeTel">电话</label>
+                        <input type="text" class="form-control" id="storeTel">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %}消息提示{% endcomment %}
+<div class="alert alert-success" role="alert" id="success-info"></div>
+<div class="alert alert-danger" role="alert" id="danger-info">操作失败！</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+{% comment %}货品管理{% endcomment %}
+<script>
+    function add_store() {
+        console.log($("#store-form").serializeArray());
+        $.loading.show();
+        $.ajax({
+            type: "post",
+            data: $("#store-form").serializeArray(),
+            url: "newStore",
+            async: false,
+            success: function (data) {
+                Modal.alert({
+                    msg: data.res_msg
+                });
+                window.location.reload();
+            },
+            error: function (data) {
+                $.loading.hide();
+                Modal.alert({
+                    msg: "出错啦！！！"
+                })
+            }
+        })
+    }
+    function update_store(obj) {
+        $("input[name='store_id']").val(obj.parent().parent().children().eq(0).html());
+        $("input[name='store_name']").val(obj.parent().parent().children().eq(1).html());
+        $("input[name='store_manager']").val(obj.parent().parent().children().eq(2).html());
+        $("input[name='store_mobile']").val(obj.parent().parent().children().eq(3).html());
+        $("input[name='store_tel']").val(obj.parent().parent().children().eq(4).html());
+        $("input[name='store_addr']").val(obj.parent().parent().children().eq(5).html());
+    }
+    function del_item(id) {
+        Modal.confirm({
+                    msg: "是否要删除？"
+                })
+                .on(function (flag) {
+                    if (flag) {
+                        $.ajax({
+                            type: "get",
+                            url: "delStore?store_id=" + id,
+                            success: function (data) {
+                                Modal.alert({
+                                    msg: data.res_msg
+                                })
+                            }
+                        });
+                    }
+                });
+    }
+</script>
+<style>
+    #store_manager {
+        text-align: left;
+    }
+
+    #store-form > .row > div {
+        margin-top: 2rem;
+    }
+</style>
+<div class="row" id="store_manager">
+    <form id="store-form">
+        <div class="row text-center">
+            <input type="hidden" name="store_id">
+            <div class="col-md-6">名称：<input type="text" name="store_name" class="text-center" required></div>
+            <div class="col-md-6">店长：<input type="text" name="store_manager" class="text-center" required></div>
+            <div class="col-md-6">店长手机：<input type="text" name="store_mobile" class="text-center" required></div>
+            <div class="col-md-6">固话：<input type="text" name="store_tel" class="text-center" required></div>
+            <div class="col-md-6">地址：<input type="text" name="store_addr" class="text-center" required></div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <button class="btn btn-success" onclick="add_store()">增加/更新门店</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered text-center">
+            <tr>
+                <td>编号</td>
+                <td>名称</td>
+                <td>店长</td>
+                <td>店长手机</td>
+                <td>固话</td>
+                <td>地址</td>
+                <td>操作</td>
+            </tr>
+            {% for store in stores %}
+                <tr>
+                    <td>{{ store.store_id }}</td>
+                    <td>{{ store.store_name }}</td>
+                    <td>{{ store.store_manager }}</td>
+                    <td>{{ store.store_mobile }}</td>
+                    <td>{{ store.store_tel }}</td>
+                    <td>{{ store.store_addr }}</td>
+                    <td><a href="javascript:void(0)"
+                           onclick="update_store($(this))">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)"
+                                                                                            onclick="update_store({{ store.store_id }})">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
